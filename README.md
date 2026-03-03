@@ -29,14 +29,26 @@ Figlinux is tuned for large Figma files and GPU-heavy workflows:
 - **Debounced IPC** — tab state updates (title, favicon, loading) are coalesced to one message per frame (16 ms), preventing IPC floods
 - **Font content caching** — font file bytes are cached in memory after first read, avoiding repeated disk I/O
 
-## Requirements
+## Install
 
-- Linux (tested on Fedora 43 / Wayland + X11)
+### Quick install (adds to your app menu)
+
+```bash
+git clone https://github.com/KhangPhan90/figlinux.git
+cd figlinux
+bash setup.sh
+```
+
+This installs Figlinux to `~/.local/share/figlinux` and adds a desktop entry so you can launch it from your app menu.
+
+### Requirements
+
 - Node.js 20+
 - `fontconfig` (`fc-list`) for local font discovery
 - Firefox or Chrome/Chromium (for Google sign-in only)
+- Linux (tested on Fedora 43 / Wayland + X11)
 
-## Run from source
+### Run from source (without installing)
 
 ```bash
 git clone https://github.com/KhangPhan90/figlinux.git
@@ -45,10 +57,18 @@ npm install
 npm start
 ```
 
-## Build a distributable
+### Build a portable AppImage
 
 ```bash
 npm run build   # produces AppImage + deb in dist/
+```
+
+### Uninstall
+
+```bash
+rm -rf ~/.local/share/figlinux
+rm -f ~/.local/share/applications/figlinux.desktop
+rm -f ~/.local/share/icons/hicolor/256x256/apps/figlinux.png
 ```
 
 ## Keyboard shortcuts

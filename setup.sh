@@ -1,21 +1,61 @@
 #!/bin/bash
 set -e
 
-echo "=== Figma Desktop (Electron) — Setup ==="
+APP_NAME="Figlinux"
+INSTALL_DIR="$HOME/.local/share/figlinux"
+DESKTOP_FILE="$HOME/.local/share/applications/figlinux.desktop"
+ICON_DIR="$HOME/.local/share/icons/hicolor/256x256/apps"
+
+echo "=== $APP_NAME — Install ==="
 echo ""
 
+# Check Node.js
 if ! command -v node &> /dev/null; then
-  echo "ERROR: Node.js is required. Install it first."
+  echo "ERROR: Node.js 20+ is required."
+  echo "Install: sudo dnf install nodejs"
   exit 1
 fi
 
 echo "Node: $(node --version)  npm: $(npm --version)"
 echo ""
+
+# Install dependencies
 echo "Installing dependencies..."
-npm install
+npm install --production
+echo ""
+
+# Copy app to install directory
+echo "Installing to $INSTALL_DIR..."
+mkdir -p "$INSTALL_DIR"
+cp -r src package.json package-lock.json node_modules assets "$INSTALL_DIR/"
+
+# Install icon
+mkdir -p "$ICON_DIR"
+cp assets/icon.png "$ICON_DIR/figlinux.png"
+
+# Create desktop entry
+mkdir -p "$(dirname "$DESKTOP_FILE")"
+cat > "$DESKTOP_FILE" <<DESKTOP
+[Desktop Entry]
+Name=Figlinux
+GenericName=Design Tool
+Comment=Unofficial Figma desktop client for Linux
+Exec=npx --prefix $INSTALL_DIR electron $INSTALL_DIR
+Icon=figlinux
+Type=Application
+Categories=Graphics;2DGraphics;VectorGraphics;
+Keywords=figma;design;ui;ux;prototype;
+StartupWMClass=figlinux
+DESKTOP
+
+# Update desktop database
+update-desktop-database "$HOME/.local/share/applications" 2>/dev/null || true
 
 echo ""
-echo "=== Done! ==="
+echo "=== Installed! ==="
 echo ""
-echo "Run:   npm start"
-echo "Build: npm run build   →  dist/"
+echo "Launch from your app menu, or run:"
+echo "  npx --prefix $INSTALL_DIR electron $INSTALL_DIR"
+echo ""
+echo "To uninstall:"
+echo "  rm -rf $INSTALL_DIR $DESKTOP_FILE $ICON_DIR/figlinux.png"
