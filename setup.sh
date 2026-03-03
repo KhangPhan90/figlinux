@@ -29,9 +29,18 @@ echo "Installing to $INSTALL_DIR..."
 mkdir -p "$INSTALL_DIR"
 cp -r src package.json package-lock.json node_modules assets "$INSTALL_DIR/"
 
-# Install icon
-mkdir -p "$ICON_DIR"
-cp assets/icon.png "$ICON_DIR/figlinux.png"
+# Install icon at multiple sizes for best display
+for size in 48 64 128 256 512; do
+  dir="$HOME/.local/share/icons/hicolor/${size}x${size}/apps"
+  mkdir -p "$dir"
+  if command -v magick &> /dev/null; then
+    magick assets/icon.png -resize "${size}x${size}" "$dir/figlinux.png"
+  elif command -v convert &> /dev/null; then
+    convert assets/icon.png -resize "${size}x${size}" "$dir/figlinux.png"
+  else
+    cp assets/icon.png "$dir/figlinux.png"
+  fi
+done
 
 # Create desktop entry
 mkdir -p "$(dirname "$DESKTOP_FILE")"
@@ -48,8 +57,9 @@ Keywords=figma;design;ui;ux;prototype;
 StartupWMClass=figlinux
 DESKTOP
 
-# Update desktop database
+# Update desktop and icon caches
 update-desktop-database "$HOME/.local/share/applications" 2>/dev/null || true
+gtk-update-icon-cache -f -t "$HOME/.local/share/icons/hicolor" 2>/dev/null || true
 
 echo ""
 echo "=== Installed! ==="
@@ -58,4 +68,5 @@ echo "Launch from your app menu, or run:"
 echo "  npx --prefix $INSTALL_DIR electron $INSTALL_DIR"
 echo ""
 echo "To uninstall:"
-echo "  rm -rf $INSTALL_DIR $DESKTOP_FILE $ICON_DIR/figlinux.png"
+echo "  rm -rf $INSTALL_DIR $DESKTOP_FILE"
+echo "  rm -f ~/.local/share/icons/hicolor/*/apps/figlinux.png"
