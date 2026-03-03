@@ -4,7 +4,6 @@ contextBridge.exposeInMainWorld('shell', {
   newTab:          ()           => ipcRenderer.send('new-tab'),
   closeTab:        (index)      => ipcRenderer.send('close-tab', index),
   switchTab:       (index)      => ipcRenderer.send('switch-tab', index),
-  pinTab:          (index)      => ipcRenderer.send('pin-tab', index),
   duplicateTab:    (index)      => ipcRenderer.send('duplicate-tab', index),
   closeOtherTabs:  (index)      => ipcRenderer.send('close-other-tabs', index),
   reorderTab:      (from, to)   => ipcRenderer.send('reorder-tab', from, to),

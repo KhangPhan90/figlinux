@@ -18,8 +18,7 @@ function renderTabs(tabs) {
 
   for (const tab of tabs) {
     const el = document.createElement('div');
-    el.className = 'tab' + (tab.active ? ' active' : '') + (tab.pinned ? ' pinned' : '');
-    if (tab.pinned) el.title = tab.title; // tooltip replaces visible title
+    el.className = 'tab' + (tab.active ? ' active' : '');
 
     // ── Favicon / spinner ───────────────────────────────────────────────────
     const iconEl = document.createElement('span');
@@ -41,22 +40,20 @@ function renderTabs(tabs) {
 
     el.appendChild(iconEl);
 
-    // ── Title + close (hidden for pinned/home tabs) ─────────────────────────
-    if (!tab.pinned) {
-      const titleEl = document.createElement('span');
-      titleEl.className = 'tab-title';
-      titleEl.textContent = tab.title;
-      el.appendChild(titleEl);
+    // ── Title + close ────────────────────────────────────────────────────────
+    const titleEl = document.createElement('span');
+    titleEl.className = 'tab-title';
+    titleEl.textContent = tab.title;
+    el.appendChild(titleEl);
 
-      if (!tab.home) {
-        const closeEl = document.createElement('span');
-        closeEl.className = 'tab-close';
-        closeEl.innerHTML = `
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-            <path d="M1 1l8 8M9 1l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>`;
-        el.appendChild(closeEl);
-      }
+    if (!tab.home) {
+      const closeEl = document.createElement('span');
+      closeEl.className = 'tab-close';
+      closeEl.innerHTML = `
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+          <path d="M1 1l8 8M9 1l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>`;
+      el.appendChild(closeEl);
     }
 
     // ── Mouse events ────────────────────────────────────────────────────────
@@ -125,9 +122,6 @@ function showCtxMenu(x, y, tabIndex) {
   const menu = document.getElementById('ctx-menu');
   const tab = currentTabs[tabIndex];
 
-  document.getElementById('ctx-pin').textContent =
-    tab && tab.pinned ? 'Unpin Tab' : 'Pin Tab';
-
   // Hide close option for the home tab (it cannot be closed)
   const isHome = tab && tab.home;
   document.querySelector('#ctx-menu [data-action="close"]').style.display = isHome ? 'none' : '';
@@ -156,8 +150,7 @@ document.getElementById('ctx-menu').addEventListener('click', (e) => {
   const action = e.target.closest('[data-action]')?.dataset.action;
   if (!action || ctxTabIndex === -1) return;
 
-  if (action === 'pin')           window.shell.pinTab(ctxTabIndex);
-  else if (action === 'duplicate')      window.shell.duplicateTab(ctxTabIndex);
+  if (action === 'duplicate')           window.shell.duplicateTab(ctxTabIndex);
   else if (action === 'close-others')   window.shell.closeOtherTabs(ctxTabIndex);
   else if (action === 'close')          window.shell.closeTab(ctxTabIndex);
 

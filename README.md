@@ -12,7 +12,6 @@ Figma has no official Linux app. This wrapper delivers the full Figma experience
 - **Customisable keyboard shortcuts** — rebind any shortcut via the built-in editor (Ctrl+,)
 - **Tab hibernation** — idle tabs sleep after 5 min, freeing GPU memory for active work
 - **Session restore** — reopen your last tabs on startup (opt-in)
-- **Pinned tabs** — icon-only, immune to close, persistent across sessions
 - **Drag to reorder tabs**
 - **Back / Forward navigation** — Ctrl+[ / Ctrl+]
 - **Zoom controls** — Ctrl+Shift+= / - / 0 with percentage display

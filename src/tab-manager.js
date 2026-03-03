@@ -117,7 +117,6 @@ class TabManager {
       url,
       favicon: null,
       loading: false,
-      pinned: false,
       home,
       hibernated: false,    // true while tab is sleeping (navigated to about:blank)
       _hibernateTimer: null, // setTimeout handle for pending hibernation
@@ -322,7 +321,7 @@ class TabManager {
         tab.view.setBounds({ x: 0, y: 0, width: 0, height: 0 });
 
         // Schedule hibernation for idle non-critical tabs (frees GPU/memory for big files)
-        if (!tab.hibernated && !tab._hibernateTimer && !tab.home && !tab.pinned) {
+        if (!tab.hibernated && !tab._hibernateTimer && !tab.home) {
           tab._hibernateTimer = setTimeout(() => {
             tab._hibernateTimer = null;
             const idx = this.tabs.indexOf(tab);
@@ -337,13 +336,6 @@ class TabManager {
     });
   }
 
-  pinTab(index) {
-    const tab = this.tabs[index];
-    if (!tab) return;
-    tab.pinned = !tab.pinned;
-    this._sendUpdate();
-  }
-
   duplicateTab(index) {
     const tab = this.tabs[index];
     if (tab) this.createTab(tab.url);
@@ -352,7 +344,7 @@ class TabManager {
   closeOtherTabs(index) {
     // Collect views to close (skip pinned/home tabs and the target tab)
     const toClose = this.tabs
-      .filter((t, i) => i !== index && !t.pinned && !t.home)
+      .filter((t, i) => i !== index && !t.home)
       .map(t => t.view);
 
     for (const view of toClose) {
@@ -405,7 +397,6 @@ class TabManager {
         active: i === this.activeIndex,
         favicon: tab.favicon,
         loading: tab.loading,
-        pinned: tab.pinned,
         home: tab.home,
         hibernated: tab.hibernated,
         canGoBack: tab.view.webContents.navigationHistory.canGoBack(),

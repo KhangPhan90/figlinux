@@ -65,16 +65,6 @@ html, body {
   color: #fff;
 }
 
-/* ── Pinned tabs (icon-only, fixed width) ───────────────────────────────── */
-
-.tab.pinned {
-  min-width: 36px;
-  max-width: 36px;
-  width: 36px;
-  padding: 0;
-  justify-content: center;
-}
-
 /* ── Tab favicon / loading icon ─────────────────────────────────────────── */
 
 .tab-icon {
