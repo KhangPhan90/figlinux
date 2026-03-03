@@ -2,6 +2,7 @@
   "name": "figma-on-linux",
   "version": "0.1.0",
   "description": "Unofficial Figma desktop client for Linux",
+  "author": "KhangPhan90 <KhangPhan90@users.noreply.github.com>",
   "main": "src/main.js",
   "license": "MIT",
   "scripts": {
@@ -18,7 +19,7 @@
     "executableName": "figma-on-linux",
     "files": ["src/**/*"],
     "linux": {
-      "target": ["AppImage", "deb", "rpm"],
+      "target": ["AppImage", "deb"],
       "category": "Graphics",
       "icon": "assets/icon.png"
     }

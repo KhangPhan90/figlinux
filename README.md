@@ -48,7 +48,7 @@ npm start
 ## Build a distributable
 
 ```bash
-npm run build   # produces AppImage + RPM in dist/
+npm run build   # produces AppImage + deb in dist/
 ```
 
 ## Keyboard shortcuts
