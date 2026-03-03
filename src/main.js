@@ -17,6 +17,9 @@ const config              = require('./config');
 const shortcutsModule     = require('./shortcuts');
 const shortcutsWindow     = require('./shortcuts-window');
 
+app.setName('Figlinux');
+app.setDesktopName('io.github.KhangPhan90.Figlinux.desktop');
+
 let win;
 let tabManager;
 
@@ -48,6 +51,7 @@ function createWindow() {
     minWidth: 800,
     minHeight: 500,
     backgroundColor: '#1e1e1e',
+    icon: path.join(__dirname, '../assets/icon.png'),
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
