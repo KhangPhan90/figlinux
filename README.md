@@ -1,27 +1,40 @@
-# Figma Linux
+# Figlinux
 
 An unofficial Figma desktop client for Linux, built with Electron.
 
-Figma has no official Linux app. This wrapper gives you the full Figma web experience packaged as a native desktop application, with features the browser tab can't provide.
+Figma has no official Linux app. This wrapper delivers the full Figma experience as a native desktop application — with features the browser tab can't offer.
 
 ## Features
 
 - **Multi-tab** — open multiple Figma files side by side (Ctrl+T / Ctrl+W / Ctrl+Tab)
-- **Local font support** — your system fonts (fc-list) appear in Figma's font picker
-- **Customisable keyboard shortcuts** — edit any shortcut via the gear button (Ctrl+,)
-- **Back / Forward navigation** — Ctrl+[ / Ctrl+]
-- **Drag to reorder tabs**
-- **Pinned tabs** — icon-only, persistent across sessions
-- **Zoom controls** — Ctrl+Shift+= / - / 0 with percentage display
+- **Local font support** — system fonts appear in Figma's font picker via a built-in font server
+- **Google sign-in** — opens your default browser for OAuth (per RFC 8252), then syncs the session back
+- **Customisable keyboard shortcuts** — rebind any shortcut via the built-in editor (Ctrl+,)
+- **Tab hibernation** — idle tabs sleep after 5 min, freeing GPU memory for active work
 - **Session restore** — reopen your last tabs on startup (opt-in)
-- **Tab hibernation** — idle tabs sleep after 5 minutes to free GPU memory
-- **Download handling** — files save to ~/Downloads and open in the file manager
+- **Pinned tabs** — icon-only, immune to close, persistent across sessions
+- **Drag to reorder tabs**
+- **Back / Forward navigation** — Ctrl+[ / Ctrl+]
+- **Zoom controls** — Ctrl+Shift+= / - / 0 with percentage display
+- **Download handling** — files save to ~/Downloads and reveal in the file manager
+
+## Performance
+
+Figlinux is tuned for large Figma files and GPU-heavy workflows:
+
+- **GPU hardware acceleration** — `enable-gpu-rasterization`, `enable-zero-copy`, `ignore-gpu-blocklist` (critical on Linux where GPUs are often blocklisted by Chromium)
+- **4 GB V8 heap** — `--max-old-space-size=4096` prevents out-of-memory crashes on complex files
+- **No background throttling** — inactive tabs stay responsive (`disable-renderer-backgrounding`, `disable-background-timer-throttling`)
+- **Tab hibernation** — tabs idle for 5+ minutes navigate to `about:blank`, releasing GPU/memory. They wake instantly on activation.
+- **Debounced IPC** — tab state updates (title, favicon, loading) are coalesced to one message per frame (16 ms), preventing IPC floods
+- **Font content caching** — font file bytes are cached in memory after first read, avoiding repeated disk I/O
 
 ## Requirements
 
 - Linux (tested on Fedora 43 / Wayland + X11)
 - Node.js 20+
 - `fontconfig` (`fc-list`) for local font discovery
+- Firefox or Chrome/Chromium (for Google sign-in only)
 
 ## Run from source
 
@@ -38,13 +51,6 @@ npm start
 npm run build   # produces AppImage + RPM in dist/
 ```
 
-## Install via Flatpak (Flathub)
-
-```bash
-flatpak install flathub io.github.KhangPhan90.Figlinux
-flatpak run io.github.KhangPhan90.Figlinux
-```
-
 ## Keyboard shortcuts
 
 | Action | Default |
@@ -53,14 +59,14 @@ flatpak run io.github.KhangPhan90.Figlinux
 | Close tab | Ctrl+W |
 | Next tab | Ctrl+Tab |
 | Previous tab | Ctrl+Shift+Tab |
-| Switch to tab 1–9 | Ctrl+1–9 |
+| Switch to tab 1-9 | Ctrl+1-9 |
 | Go back | Ctrl+[ |
 | Go forward | Ctrl+] |
 | Reload | Ctrl+Shift+R |
 | Zoom in/out/reset | Ctrl+Shift+= / - / 0 |
 | Open shortcuts editor | Ctrl+, |
 
-All app shortcuts (except Ctrl+1–9) are rebindable via the shortcuts editor.
+All shortcuts (except Ctrl+1-9) are rebindable via the shortcuts editor.
 
 ## Disclaimer
 
