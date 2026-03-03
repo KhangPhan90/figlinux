@@ -3,7 +3,7 @@ set -e
 
 APP_NAME="Figlinux"
 INSTALL_DIR="$HOME/.local/share/figlinux"
-DESKTOP_FILE="$HOME/.local/share/applications/figlinux.desktop"
+DESKTOP_FILE="$HOME/.local/share/applications/io.github.KhangPhan90.Figlinux.desktop"
 ICON_DIR="$HOME/.local/share/icons/hicolor/256x256/apps"
 
 echo "=== $APP_NAME — Install ==="
@@ -54,7 +54,7 @@ Icon=figlinux
 Type=Application
 Categories=Graphics;2DGraphics;VectorGraphics;
 Keywords=figma;design;ui;ux;prototype;
-StartupWMClass=figlinux
+StartupWMClass=io.github.KhangPhan90.Figlinux
 DESKTOP
 
 # Update desktop and icon caches

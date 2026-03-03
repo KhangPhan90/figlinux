@@ -67,8 +67,8 @@ npm run build   # produces AppImage + deb in dist/
 
 ```bash
 rm -rf ~/.local/share/figlinux
-rm -f ~/.local/share/applications/figlinux.desktop
-rm -f ~/.local/share/icons/hicolor/256x256/apps/figlinux.png
+rm -f ~/.local/share/applications/io.github.KhangPhan90.Figlinux.desktop
+rm -f ~/.local/share/icons/hicolor/*/apps/figlinux.png
 ```
 
 ## Keyboard shortcuts
