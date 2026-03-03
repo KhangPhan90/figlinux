@@ -20,6 +20,13 @@ const shortcutsWindow     = require('./shortcuts-window');
 app.setName('Figlinux');
 app.setDesktopName('io.github.KhangPhan90.Figlinux.desktop');
 
+// Strip "Electron" and app name from the default UA so auth popup windows
+// (Google, Microsoft) see a clean Chrome identity and don't block sign-in.
+app.userAgentFallback = app.userAgentFallback
+  .replace(/\s*Electron\/\S+/, '')
+  .replace(/\s*Figlinux\/\S+/i, '')
+  .replace(/\s*figma-on-linux\/\S+/i, '');
+
 let win;
 let tabManager;
 
@@ -88,6 +95,29 @@ function createWindow() {
 // ── App lifecycle ─────────────────────────────────────────────────────────────
 app.whenReady().then(() => {
   fontServer.start();
+
+  // Override User-Agent Client Hints for auth domains so Google/Microsoft
+  // don't detect Electron and block sign-in.
+  const CLEAN_UA =
+    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 ' +
+    '(KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36';
+  const CLEAN_SEC_CH_UA =
+    '"Chromium";v="130", "Google Chrome";v="130", "Not?A_Brand";v="99"';
+
+  session.defaultSession.webRequest.onBeforeSendHeaders(
+    { urls: [
+      '*://*.google.com/*', '*://*.googleapis.com/*', '*://*.gstatic.com/*',
+      '*://*.microsoftonline.com/*', '*://*.live.com/*',
+      '*://*.okta.com/*',
+    ] },
+    (details, callback) => {
+      details.requestHeaders['User-Agent'] = CLEAN_UA;
+      details.requestHeaders['Sec-CH-UA'] = CLEAN_SEC_CH_UA;
+      details.requestHeaders['Sec-CH-UA-Mobile'] = '?0';
+      details.requestHeaders['Sec-CH-UA-Platform'] = '"Linux"';
+      callback({ requestHeaders: details.requestHeaders });
+    },
+  );
 
   // Handle file downloads — save to ~/Downloads and reveal in file manager
   session.defaultSession.on('will-download', (_event, item) => {

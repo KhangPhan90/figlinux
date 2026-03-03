@@ -1,14 +1,17 @@
 const { WebContentsView, shell, app } = require('electron');
 const path = require('path');
 const { matchesInput } = require('./shortcuts');
+const { signInViaBrowser } = require('./browser-auth');
 
 const TAB_BAR_HEIGHT = 48;
 const HIBERNATE_DELAY_MS = 5 * 60 * 1000; // hibernate inactive tabs after 5 minutes
 
-// Must be Windows UA — Figma only contacts the local font agent on Windows/macOS
+// Windows UA — Figma only contacts the local font agent on Windows/macOS.
+// Chrome version must match Electron 33's Chromium 130 to avoid fingerprint mismatches.
 const FIGMA_UA =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' +
-  '(KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36';
+  '(KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36';
+
 
 function isFigmaUrl(url) {
   try {
@@ -18,6 +21,25 @@ function isFigmaUrl(url) {
       host.endsWith('figmausercontent.com') ||
       host.endsWith('figma-alpha.com')
     );
+  } catch {
+    return false;
+  }
+}
+
+function isAuthUrl(url) {
+  try {
+    const { hostname, pathname } = new URL(url);
+    // Direct auth provider domains
+    if (
+      hostname === 'accounts.google.com' ||
+      hostname === 'login.microsoftonline.com' ||
+      hostname === 'login.live.com' ||
+      (hostname === 'github.com' && pathname.startsWith('/login')) ||
+      hostname.endsWith('.okta.com')
+    ) return true;
+    // Figma SSO endpoints (start_google_sso, finish_google_sso, start_saml_sso, etc.)
+    if (hostname.endsWith('figma.com') && /_sso\b/.test(pathname)) return true;
+    return false;
   } catch {
     return false;
   }
@@ -133,13 +155,26 @@ class TabManager {
       this._sendUpdate();
     });
 
-    // Open Figma links in a new tab; everything else in the system browser
+    // Per RFC 8252, OAuth must happen in the system browser, not embedded.
+    // Auth/SSO check MUST come before the Figma URL check, because SSO
+    // endpoints (figma.com/start_google_sso) are also Figma URLs.
     view.webContents.setWindowOpenHandler(({ url: newUrl }) => {
+      if (isAuthUrl(newUrl)) {
+        signInViaBrowser(this.win, newUrl).then(ok => {
+          if (ok) {
+            // Navigate home tab to dashboard (not just reload login page)
+            const homeTab = this.tabs.find(t => t.home);
+            if (homeTab) homeTab.view.webContents.loadURL('https://www.figma.com/files/');
+            this.setActive(0);
+          }
+        });
+        return { action: 'deny' };
+      }
       if (isFigmaUrl(newUrl)) {
         this.createTab(newUrl);
-      } else {
-        shell.openExternal(newUrl);
+        return { action: 'deny' };
       }
+      shell.openExternal(newUrl);
       return { action: 'deny' };
     });
 
@@ -148,6 +183,14 @@ class TabManager {
       if (!isAllowedUrl(navUrl)) {
         event.preventDefault();
         shell.openExternal(navUrl);
+      }
+    });
+
+    // If Google auth appears as a redirect inside a Figma tab, open in browser.
+    view.webContents.on('will-redirect', (event, navUrl) => {
+      if (isAuthUrl(navUrl) && !isFigmaUrl(navUrl)) {
+        event.preventDefault();
+        signInViaBrowser(this.win, navUrl).then(ok => { if (ok) this.reloadActive(); });
       }
     });
 
