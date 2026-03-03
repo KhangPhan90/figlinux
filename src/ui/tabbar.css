@@ -1,0 +1,267 @@
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 48px;
+  overflow: hidden;
+  background: #1e1e1e;
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+#tab-bar {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 6px;
+  gap: 2px;
+}
+
+/* ── Tabs ───────────────────────────────────────────────────────────────── */
+
+#tabs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+  overflow-x: auto;
+  min-width: 0;
+  scrollbar-width: none; /* Firefox */
+}
+
+#tabs::-webkit-scrollbar {
+  display: none; /* Chrome / Electron */
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px 0 12px;
+  height: 34px;
+  border-radius: 6px;
+  color: #888;
+  cursor: pointer;
+  white-space: nowrap;
+  max-width: 220px;
+  min-width: 80px;
+  flex-shrink: 0;
+  transition: background 0.1s, color 0.1s;
+}
+
+.tab:hover {
+  background: #2a2a2a;
+  color: #ccc;
+}
+
+.tab.active {
+  background: #303030;
+  color: #fff;
+}
+
+/* ── Pinned tabs (icon-only, fixed width) ───────────────────────────────── */
+
+.tab.pinned {
+  min-width: 36px;
+  max-width: 36px;
+  width: 36px;
+  padding: 0;
+  justify-content: center;
+}
+
+/* ── Tab favicon / loading icon ─────────────────────────────────────────── */
+
+.tab-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.tab-icon img {
+  border-radius: 2px;
+}
+
+/* ── Loading spinner ────────────────────────────────────────────────────── */
+
+@keyframes tab-spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-top-color: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  animation: tab-spin 0.6s linear infinite;
+}
+
+/* ── Tab title ──────────────────────────────────────────────────────────── */
+
+.tab-title {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Tab close button ───────────────────────────────────────────────────── */
+
+.tab-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.15s, background 0.1s;
+  color: #999;
+}
+
+.tab:hover .tab-close,
+.tab.active .tab-close {
+  opacity: 1;
+}
+
+.tab-close:hover {
+  background: #444;
+  color: #fff;
+}
+
+/* ── Buttons ────────────────────────────────────────────────────────────── */
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: #888;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.1s, color 0.1s;
+}
+
+.icon-btn:hover {
+  background: #2a2a2a;
+  color: #fff;
+}
+
+.icon-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
+}
+
+#new-tab-btn {
+  margin-left: 2px;
+}
+
+#settings-btn {
+  margin-left: 6px;
+  border-left: 1px solid #333;
+  padding-left: 8px;
+  border-radius: 0 6px 6px 0;
+  width: 34px;
+}
+
+/* ── Zoom controls ──────────────────────────────────────────────────────── */
+
+#zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  padding-left: 8px;
+  border-left: 1px solid #333;
+  margin-left: 4px;
+  flex-shrink: 0;
+}
+
+#zoom-pct {
+  font-size: 12px;
+  font-family: inherit;
+  color: #888;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 3px 5px;
+  border-radius: 4px;
+  min-width: 42px;
+  text-align: center;
+  transition: background 0.1s, color 0.1s;
+}
+
+#zoom-pct:hover {
+  background: #2a2a2a;
+  color: #fff;
+}
+
+#zoom-pct.at-default {
+  opacity: 0.45;
+}
+
+/* ── Drag-to-reorder ────────────────────────────────────────────────────── */
+
+.tab.dragging {
+  opacity: 0.4;
+}
+
+.tab.drag-over {
+  box-shadow: -3px 0 0 0 #7b5cfa;
+}
+
+/* ── Right-click context menu ───────────────────────────────────────────── */
+
+#ctx-menu {
+  position: fixed;
+  z-index: 1000;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 4px;
+  min-width: 160px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+#ctx-menu.hidden {
+  display: none;
+}
+
+#ctx-menu button {
+  display: block;
+  width: 100%;
+  padding: 6px 10px;
+  background: transparent;
+  border: none;
+  color: #ccc;
+  font-size: 13px;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+#ctx-menu button:hover {
+  background: #3a3a3a;
+  color: #fff;
+}
+
+#ctx-menu hr {
+  border: none;
+  border-top: 1px solid #444;
+  margin: 4px 0;
+}

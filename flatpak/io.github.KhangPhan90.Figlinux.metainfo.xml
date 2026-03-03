@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.KhangPhan90.Figlinux</id>
+
+  <name>Figma Linux</name>
+  <summary>Unofficial Figma desktop client for Linux</summary>
+
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+
+  <description>
+    <p>
+      An unofficial Figma desktop client for Linux built with Electron.
+      Figma has no official Linux application; this wrapper delivers the full
+      Figma web experience in a native window with desktop-only features.
+    </p>
+    <p>Features include:</p>
+    <ul>
+      <li>Multi-tab support — open several Figma files side by side</li>
+      <li>Local font integration — system fonts appear in Figma's font picker</li>
+      <li>Customisable keyboard shortcuts via a built-in editor</li>
+      <li>Tab hibernation — idle tabs release GPU memory automatically</li>
+      <li>Session restore — reopen your last tabs on next launch</li>
+      <li>Back / forward navigation, drag-to-reorder tabs, pinned tabs</li>
+    </ul>
+    <p>
+      This is an independent project and is not affiliated with, endorsed by,
+      or supported by Figma, Inc.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">io.github.KhangPhan90.Figlinux.desktop</launchable>
+
+  <url type="homepage">https://github.com/KhangPhan90/figlinux</url>
+  <url type="bugtracker">https://github.com/KhangPhan90/figlinux/issues</url>
+
+  <screenshots>
+    <!--
+      Flathub requires at least one screenshot.
+      Add real screenshots before submitting:
+
+      <screenshot type="default">
+        <caption>Figma Linux with multiple tabs open</caption>
+        <image>https://raw.githubusercontent.com/KhangPhan90/figlinux/main/assets/screenshot-main.png</image>
+      </screenshot>
+    -->
+  </screenshots>
+
+  <releases>
+    <release version="0.1.0" date="2025-03-03">
+      <description>
+        <p>Initial release.</p>
+      </description>
+    </release>
+  </releases>
+
+  <content_rating type="oars-1.1"/>
+</component>

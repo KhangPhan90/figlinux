@@ -1,0 +1,26 @@
+{
+  "name": "figma-on-linux",
+  "version": "0.1.0",
+  "description": "Unofficial Figma desktop client for Linux",
+  "main": "src/main.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --linux"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.0.0"
+  },
+  "build": {
+    "appId": "io.github.KhangPhan90.Figlinux",
+    "productName": "Figma Linux",
+    "executableName": "figma-on-linux",
+    "files": ["src/**/*"],
+    "linux": {
+      "target": ["AppImage", "deb", "rpm"],
+      "category": "Graphics",
+      "icon": "assets/icon.png"
+    }
+  }
+}

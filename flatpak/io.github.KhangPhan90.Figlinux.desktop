@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Figma Linux
+GenericName=Design Tool
+Comment=Unofficial Figma desktop client for Linux
+Exec=run.sh %U
+Icon=io.github.KhangPhan90.Figlinux
+Type=Application
+Categories=Graphics;2DGraphics;VectorGraphics;
+MimeType=x-scheme-handler/figma;
+Keywords=figma;design;ui;ux;prototype;
+StartupWMClass=figma-on-linux

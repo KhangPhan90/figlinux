@@ -1,0 +1,246 @@
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  background: #1e1e1e;
+  color: #d4d4d4;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+/* ── Layout ─────────────────────────────────────────────────────────────── */
+
+#layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Sidebar ────────────────────────────────────────────────────────────── */
+
+#sidebar {
+  width: 190px;
+  flex-shrink: 0;
+  border-right: 1px solid #2d2d2d;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 0;
+  scrollbar-width: none;
+}
+#nav::-webkit-scrollbar { display: none; }
+
+.nav-group-label {
+  padding: 10px 14px 4px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #555;
+}
+
+.nav-item {
+  display: block;
+  padding: 6px 14px;
+  border-radius: 5px;
+  margin: 1px 6px;
+  cursor: pointer;
+  color: #888;
+  font-size: 13px;
+  transition: background 0.1s, color 0.1s;
+  text-decoration: none;
+}
+.nav-item:hover { background: #252525; color: #ccc; }
+.nav-item.active { background: #2a2a2a; color: #fff; }
+
+#reset-all-btn {
+  margin: 10px 10px;
+  padding: 7px 0;
+  background: transparent;
+  border: 1px solid #3a3a3a;
+  border-radius: 5px;
+  color: #888;
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.1s, color 0.1s;
+  text-align: center;
+  flex-shrink: 0;
+}
+#reset-all-btn:hover { border-color: #e55; color: #e55; }
+
+/* ── Content ────────────────────────────────────────────────────────────── */
+
+#content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 28px 32px;
+  scrollbar-width: thin;
+  scrollbar-color: #333 transparent;
+}
+#content::-webkit-scrollbar { width: 6px; }
+#content::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+/* ── Recording hint banner ──────────────────────────────────────────────── */
+
+#recording-hint {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #1a3a55;
+  border-bottom: 1px solid #2a5a80;
+  padding: 9px 16px;
+  font-size: 12px;
+  color: #7ec8f8;
+  text-align: center;
+}
+#recording-hint kbd {
+  background: #0f2a40;
+  border: 1px solid #2a5a80;
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-family: inherit;
+  font-size: 11px;
+}
+#recording-hint.hidden { display: none; }
+
+/* ── Section headers ────────────────────────────────────────────────────── */
+
+.section {
+  margin-top: 28px;
+}
+
+.section-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #555;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #2a2a2a;
+  margin-bottom: 2px;
+}
+
+.figma-group-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 36px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #2d2d2d;
+}
+.figma-group-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #484848;
+}
+.figma-group-note {
+  font-size: 11px;
+  color: #484848;
+}
+
+/* ── Shortcut rows ──────────────────────────────────────────────────────── */
+
+.shortcut-row {
+  display: flex;
+  align-items: center;
+  padding: 7px 0;
+  border-bottom: 1px solid #232323;
+  gap: 10px;
+  min-height: 38px;
+}
+
+.action-label {
+  flex: 1;
+  color: #ccc;
+  font-size: 13px;
+}
+.shortcut-row.readonly .action-label { color: #555; }
+
+.shortcut-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  min-width: 160px;
+}
+
+.shortcut-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  background: #252525;
+  border: 1px solid #3a3a3a;
+  border-radius: 4px;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 11px;
+  color: #ccc;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+.shortcut-badge:hover { border-color: #555; background: #2d2d2d; }
+
+.shortcut-badge.unset { color: #444; font-style: italic; cursor: pointer; }
+.shortcut-badge.unset:hover { color: #666; }
+
+.shortcut-badge.recording {
+  border-color: #3b82f6;
+  background: #0d1f35;
+  color: #7ec8f8;
+  animation: pulse-border 1s ease-in-out infinite;
+}
+
+.shortcut-badge.conflict {
+  border-color: #dc3545;
+  background: #2a0a0d;
+  color: #f87171;
+}
+
+.shortcut-badge.readonly {
+  cursor: default;
+  color: #484848;
+  background: transparent;
+  border-color: #2a2a2a;
+  pointer-events: none;
+}
+
+.conflict-msg {
+  font-size: 11px;
+  color: #f87171;
+  text-align: right;
+}
+.conflict-msg.hidden { display: none; }
+
+.reset-btn {
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: #555;
+  font-size: 14px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.1s, color 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.reset-btn:hover { background: #2a2a2a; color: #ccc; }
+.reset-btn.hidden { visibility: hidden; }
+
+/* ── Animations ─────────────────────────────────────────────────────────── */
+
+@keyframes pulse-border {
+  0%, 100% { border-color: #3b82f6; box-shadow: 0 0 0 0 rgba(59,130,246,0); }
+  50%       { border-color: #60a5fa; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+  <title>Keyboard Shortcuts</title>
+  <link rel="stylesheet" href="shortcuts.css" />
+</head>
+<body>
+  <div id="layout">
+
+    <div id="sidebar">
+      <div id="nav"></div>
+      <button id="reset-all-btn">Reset All to Default</button>
+    </div>
+
+    <div id="content">
+      <div id="recording-hint" class="hidden">
+        Press a new key combination &nbsp;·&nbsp; <kbd>Esc</kbd> to cancel &nbsp;·&nbsp;
+        <kbd>Backspace</kbd> to unbind
+      </div>
+      <div id="sections"></div>
+    </div>
+
+  </div>
+  <script src="shortcuts-renderer.js"></script>
+</body>
+</html>
