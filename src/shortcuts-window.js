@@ -23,8 +23,8 @@ function open() {
   }
 
   _shortcutsWin = new BrowserWindow({
-    width: 780,
-    height: 560,
+    width: 850,
+    height: 620,
     parent: _getWin(),
     modal: false,
     title: 'Keyboard Shortcuts',

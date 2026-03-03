@@ -3,9 +3,10 @@
 html, body {
   height: 100%;
   background: #1e1e1e;
-  color: #d4d4d4;
+  color: #e0e0e0;
   font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 450;
   -webkit-font-smoothing: antialiased;
   user-select: none;
 }
@@ -21,9 +22,9 @@ html, body {
 /* ── Sidebar ────────────────────────────────────────────────────────────── */
 
 #sidebar {
-  width: 190px;
+  width: 200px;
   flex-shrink: 0;
-  border-right: 1px solid #2d2d2d;
+  border-right: 1px solid #333;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -32,42 +33,42 @@ html, body {
 #nav {
   flex: 1;
   overflow-y: auto;
-  padding: 10px 0;
+  padding: 12px 0;
   scrollbar-width: none;
 }
 #nav::-webkit-scrollbar { display: none; }
 
 .nav-group-label {
-  padding: 10px 14px 4px;
-  font-size: 10px;
-  font-weight: 600;
+  padding: 12px 14px 6px;
+  font-size: 11px;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #555;
+  color: #777;
 }
 
 .nav-item {
   display: block;
-  padding: 6px 14px;
+  padding: 8px 14px;
   border-radius: 5px;
-  margin: 1px 6px;
+  margin: 2px 6px;
   cursor: pointer;
-  color: #888;
-  font-size: 13px;
+  color: #aaa;
+  font-size: 14px;
   transition: background 0.1s, color 0.1s;
   text-decoration: none;
 }
-.nav-item:hover { background: #252525; color: #ccc; }
-.nav-item.active { background: #2a2a2a; color: #fff; }
+.nav-item:hover { background: #282828; color: #ddd; }
+.nav-item.active { background: #2a2d30; color: #fff; }
 
 #reset-all-btn {
   margin: 10px 10px;
-  padding: 7px 0;
+  padding: 8px 0;
   background: transparent;
-  border: 1px solid #3a3a3a;
+  border: 1px solid #444;
   border-radius: 5px;
-  color: #888;
-  font-size: 12px;
+  color: #999;
+  font-size: 13px;
   font-family: inherit;
   cursor: pointer;
   transition: border-color 0.1s, color 0.1s;
@@ -83,10 +84,10 @@ html, body {
   overflow-y: auto;
   padding: 0 28px 32px;
   scrollbar-width: thin;
-  scrollbar-color: #333 transparent;
+  scrollbar-color: #444 transparent;
 }
 #content::-webkit-scrollbar { width: 6px; }
-#content::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+#content::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
 
 /* ── Recording hint banner ──────────────────────────────────────────────── */
 
@@ -96,8 +97,8 @@ html, body {
   z-index: 10;
   background: #1a3a55;
   border-bottom: 1px solid #2a5a80;
-  padding: 9px 16px;
-  font-size: 12px;
+  padding: 10px 16px;
+  font-size: 13px;
   color: #7ec8f8;
   text-align: center;
 }
@@ -105,9 +106,9 @@ html, body {
   background: #0f2a40;
   border: 1px solid #2a5a80;
   border-radius: 3px;
-  padding: 1px 5px;
+  padding: 2px 6px;
   font-family: inherit;
-  font-size: 11px;
+  font-size: 12px;
 }
 #recording-hint.hidden { display: none; }
 
@@ -118,13 +119,13 @@ html, body {
 }
 
 .section-title {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #555;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #2a2a2a;
+  color: #777;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #333;
   margin-bottom: 2px;
 }
 
@@ -134,18 +135,18 @@ html, body {
   gap: 10px;
   margin-top: 36px;
   padding-bottom: 10px;
-  border-bottom: 2px solid #2d2d2d;
+  border-bottom: 2px solid #333;
 }
 .figma-group-title {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #484848;
+  color: #aaa;
 }
 .figma-group-note {
-  font-size: 11px;
-  color: #484848;
+  font-size: 12px;
+  color: #aaa;
 }
 
 /* ── Shortcut rows ──────────────────────────────────────────────────────── */
@@ -153,44 +154,44 @@ html, body {
 .shortcut-row {
   display: flex;
   align-items: center;
-  padding: 7px 0;
-  border-bottom: 1px solid #232323;
-  gap: 10px;
-  min-height: 38px;
+  padding: 9px 0;
+  border-bottom: 1px solid #282828;
+  gap: 12px;
+  min-height: 42px;
 }
 
 .action-label {
   flex: 1;
-  color: #ccc;
-  font-size: 13px;
+  color: #ddd;
+  font-size: 14px;
 }
-.shortcut-row.readonly .action-label { color: #555; }
+.shortcut-row.readonly .action-label { color: #999; }
 
 .shortcut-cell {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 3px;
-  min-width: 160px;
+  gap: 4px;
+  min-width: 170px;
 }
 
 .shortcut-badge {
   display: inline-block;
-  padding: 3px 10px;
-  background: #252525;
-  border: 1px solid #3a3a3a;
-  border-radius: 4px;
+  padding: 4px 12px;
+  background: #272727;
+  border: 1px solid #444;
+  border-radius: 5px;
   font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-  font-size: 11px;
-  color: #ccc;
+  font-size: 13px;
+  color: #ddd;
   cursor: pointer;
   transition: border-color 0.15s, background 0.15s;
   white-space: nowrap;
 }
-.shortcut-badge:hover { border-color: #555; background: #2d2d2d; }
+.shortcut-badge:hover { border-color: #666; background: #303030; }
 
-.shortcut-badge.unset { color: #444; font-style: italic; cursor: pointer; }
-.shortcut-badge.unset:hover { color: #666; }
+.shortcut-badge.unset { color: #777; font-style: italic; cursor: pointer; }
+.shortcut-badge.unset:hover { color: #aaa; }
 
 .shortcut-badge.recording {
   border-color: #3b82f6;
@@ -207,27 +208,27 @@ html, body {
 
 .shortcut-badge.readonly {
   cursor: default;
-  color: #484848;
-  background: transparent;
-  border-color: #2a2a2a;
+  color: #999;
+  background: #222;
+  border-color: #3a3a3a;
   pointer-events: none;
 }
 
 .conflict-msg {
-  font-size: 11px;
+  font-size: 12px;
   color: #f87171;
   text-align: right;
 }
 .conflict-msg.hidden { display: none; }
 
 .reset-btn {
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   border: none;
   border-radius: 4px;
   background: transparent;
-  color: #555;
-  font-size: 14px;
+  color: #888;
+  font-size: 15px;
   cursor: pointer;
   flex-shrink: 0;
   transition: background 0.1s, color 0.1s;
@@ -235,7 +236,7 @@ html, body {
   align-items: center;
   justify-content: center;
 }
-.reset-btn:hover { background: #2a2a2a; color: #ccc; }
+.reset-btn:hover { background: #303030; color: #ddd; }
 .reset-btn.hidden { visibility: hidden; }
 
 /* ── Animations ─────────────────────────────────────────────────────────── */
