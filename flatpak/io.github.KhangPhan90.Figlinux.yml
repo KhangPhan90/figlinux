@@ -83,7 +83,7 @@ modules:
         # After `git tag v0.1.0 && git push --tags`, run:
         #   git rev-parse v0.1.0
         # and paste the result here:
-        commit: FILL_IN_AFTER_TAGGING
+        commit: b8106ff4aa67d8f93d611c9b12207a0cd2e2e9ff
 
       # ── Electron binary (pre-downloaded so the build stays offline) ──────────
       # SHA256 verified from:
