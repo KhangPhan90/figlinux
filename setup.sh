@@ -66,7 +66,7 @@ cat > "$DESKTOP_FILE" <<DESKTOP
 Name=Figlinux
 GenericName=Design Tool
 Comment=Unofficial Figma desktop client for Linux
-Exec=$INSTALL_DIR/node_modules/.bin/electron $INSTALL_DIR
+Exec=$INSTALL_DIR/node_modules/.bin/electron --class=io.github.KhangPhan90.Figlinux $INSTALL_DIR
 Icon=figlinux
 Type=Application
 Categories=Graphics;2DGraphics;VectorGraphics;
@@ -82,7 +82,7 @@ echo ""
 echo "=== Installed! ==="
 echo ""
 echo "Launch from your app menu, or run:"
-echo "  $INSTALL_DIR/node_modules/.bin/electron $INSTALL_DIR"
+echo "  $INSTALL_DIR/node_modules/.bin/electron --class=io.github.KhangPhan90.Figlinux $INSTALL_DIR"
 echo ""
 echo "To uninstall:"
 echo "  rm -rf $INSTALL_DIR $DESKTOP_FILE"
