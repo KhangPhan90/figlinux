@@ -197,6 +197,7 @@ function attachRowListeners() {
 function startRecording(id) {
   if (recordingId) stopRecording(true);
   recordingId = id;
+  window.shortcutsAPI.setRecording(true);
 
   const row = document.querySelector(`[data-id="${id}"]`);
   if (!row) return;
@@ -212,6 +213,7 @@ function stopRecording(cancelled = false) {
   if (!recordingId) return;
   const id = recordingId;
   recordingId = null;
+  window.shortcutsAPI.setRecording(false);
   document.getElementById('recording-hint').classList.add('hidden');
 
   const row = document.querySelector(`[data-id="${id}"]`);

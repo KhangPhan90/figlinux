@@ -209,6 +209,7 @@ async function signInViaBrowser(parentWin, authUrl) {
   // ── Chromium: temp profile (Chrome encrypts real profile cookies) ──────────
   const chromiumBin = findChromiumBin();
   if (chromiumBin) {
+    const AUTH_TIMEOUT_MS = 10 * 60 * 1000; // 10 minutes
     const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'figlinux-auth-'));
     return new Promise((resolve) => {
       const child = spawn(chromiumBin, [
@@ -216,6 +217,32 @@ async function signInViaBrowser(parentWin, authUrl) {
         '--no-first-run', '--no-default-browser-check',
         authUrl || 'https://www.figma.com/login',
       ], { stdio: 'ignore' });
+
+      let settled = false;
+      const finish = async (timedOut) => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        if (timedOut) {
+          child.kill();
+          dialog.showErrorBox('Sign-in timed out', 'The sign-in browser was open for too long.\nPlease try again.');
+          resolve(false);
+          return;
+        }
+        setTimeout(async () => {
+          try {
+            const cookies = readChromiumCookies(tmpDir);
+            resolve(cookies.length > 0 ? await injectCookies(cookies) : false);
+          } catch (e) {
+            console.error('[figlinux] Cookie transfer failed:', e.message);
+            resolve(false);
+          } finally {
+            try { fs.rmSync(tmpDir, { recursive: true, force: true }); } catch {}
+          }
+        }, 500);
+      };
+
+      const timer = setTimeout(() => finish(true), AUTH_TIMEOUT_MS);
 
       dialog.showMessageBox(parentWin, {
         type: 'info',
@@ -228,19 +255,7 @@ async function signInViaBrowser(parentWin, authUrl) {
         noLink: true,
       });
 
-      child.on('exit', () => {
-        setTimeout(async () => {
-          try {
-            const cookies = readChromiumCookies(tmpDir);
-            resolve(cookies.length > 0 ? await injectCookies(cookies) : false);
-          } catch (e) {
-            console.error('[figlinux] Cookie transfer failed:', e.message);
-            resolve(false);
-          } finally {
-            try { fs.rmSync(tmpDir, { recursive: true, force: true }); } catch {}
-          }
-        }, 500);
-      });
+      child.on('exit', () => finish(false));
     });
   }
 

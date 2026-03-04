@@ -8,40 +8,40 @@
 </head>
 <body>
   <div id="tab-bar">
-    <button class="icon-btn" id="back-btn" title="Go back" disabled>
+    <button class="icon-btn" id="back-btn" title="Go back" aria-label="Go back" disabled>
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
         <path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
-    <button class="icon-btn" id="forward-btn" title="Go forward" disabled>
+    <button class="icon-btn" id="forward-btn" title="Go forward" aria-label="Go forward" disabled>
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
         <path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
 
-    <div id="tabs"></div>
+    <div id="tabs" role="tablist"></div>
 
-    <button class="icon-btn" id="new-tab-btn" title="New tab  Ctrl+T">
+    <button class="icon-btn" id="new-tab-btn" title="New tab  Ctrl+T" aria-label="New tab">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
         <path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
       </svg>
     </button>
 
     <div id="zoom-controls">
-      <button class="icon-btn" id="zoom-out-btn" title="Zoom out  Ctrl+Shift+-">
+      <button class="icon-btn" id="zoom-out-btn" title="Zoom out  Ctrl+Shift+-" aria-label="Zoom out">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
           <path d="M2 7h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
       </button>
-      <button id="zoom-pct" title="Reset zoom  Ctrl+Shift+0">100%</button>
-      <button class="icon-btn" id="zoom-in-btn" title="Zoom in  Ctrl+Shift+=">
+      <button id="zoom-pct" title="Reset zoom  Ctrl+Shift+0" aria-label="Reset zoom">100%</button>
+      <button class="icon-btn" id="zoom-in-btn" title="Zoom in  Ctrl+Shift+=" aria-label="Zoom in">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
           <path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
       </button>
     </div>
 
-    <button class="icon-btn" id="settings-btn" title="Keyboard Shortcuts  Ctrl+,">
+    <button class="icon-btn" id="settings-btn" title="Keyboard Shortcuts  Ctrl+," aria-label="Keyboard shortcuts">
       <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
         <path d="M7.5 9.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" stroke="currentColor" stroke-width="1.4"/>
         <path d="M12.1 9.2c.1-.2.1-.5.1-.7s0-.5-.1-.7l1.3-1a.4.4 0 0 0 .1-.5l-1.2-2.1a.4.4 0 0 0-.5-.2l-1.5.6a5 5 0 0 0-1.2-.7L8.8 2.4A.4.4 0 0 0 8.4 2H5.6a.4.4 0 0 0-.4.4l-.3 1.5a5 5 0 0 0-1.2.7l-1.5-.6a.4.4 0 0 0-.5.2L1.5 6.3a.4.4 0 0 0 .1.5l1.3 1c0 .2-.1.5-.1.7s0 .5.1.7l-1.3 1a.4.4 0 0 0-.1.5l1.2 2.1c.1.2.3.2.5.2l1.5-.6c.4.3.8.5 1.2.7l.3 1.5c0 .2.2.4.4.4h2.4c.2 0 .4-.2.4-.4l.3-1.5c.4-.2.8-.4 1.2-.7l1.5.6c.2.1.4 0 .5-.2l1.2-2.1a.4.4 0 0 0-.1-.5l-1.3-1Z" stroke="currentColor" stroke-width="1.4"/>

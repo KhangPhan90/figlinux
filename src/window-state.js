@@ -1,13 +1,34 @@
-const { app } = require('electron');
+const { app, screen } = require('electron');
 const fs = require('fs');
 const path = require('path');
 
 const STATE_FILE = path.join(app.getPath('userData'), 'window-state.json');
 const DEFAULTS = { width: 1400, height: 900, maximized: false };
 
+function isVisibleOnAnyDisplay(state) {
+  if (state.x == null || state.y == null) return false;
+  const displays = screen.getAllDisplays();
+  // Window is visible if at least 100px of its top-left region overlaps a display
+  const margin = 100;
+  return displays.some(d => {
+    const { x, y, width, height } = d.bounds;
+    return (
+      state.x + margin > x && state.x < x + width &&
+      state.y + margin > y && state.y < y + height
+    );
+  });
+}
+
 function load() {
   try {
-    return { ...DEFAULTS, ...JSON.parse(fs.readFileSync(STATE_FILE, 'utf8')) };
+    const state = { ...DEFAULTS, ...JSON.parse(fs.readFileSync(STATE_FILE, 'utf8')) };
+    // If saved position is off-screen (e.g. monitor unplugged), drop x/y so
+    // Electron centres the window on the primary display.
+    if (!state.maximized && !isVisibleOnAnyDisplay(state)) {
+      delete state.x;
+      delete state.y;
+    }
+    return state;
   } catch {
     return { ...DEFAULTS };
   }

@@ -320,8 +320,10 @@ class TabManager {
         // Tuck inactive views out of sight (keeps them alive / pre-loaded)
         tab.view.setBounds({ x: 0, y: 0, width: 0, height: 0 });
 
-        // Schedule hibernation for idle non-critical tabs (frees GPU/memory for big files)
-        if (!tab.hibernated && !tab._hibernateTimer && !tab.home) {
+        // Schedule hibernation for idle non-critical tabs (frees GPU/memory for big files).
+        // Always reset the timer so rapid resize/maximize events don't queue duplicates.
+        if (!tab.hibernated && !tab.home) {
+          clearTimeout(tab._hibernateTimer);
           tab._hibernateTimer = setTimeout(() => {
             tab._hibernateTimer = null;
             const idx = this.tabs.indexOf(tab);

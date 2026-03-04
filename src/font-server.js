@@ -63,9 +63,6 @@ function scanFonts() {
 // Font metadata cached once at startup
 let fontCache = null;
 
-// Font file *content* cached on first read — avoids repeated disk reads for the same font
-const fontFileContentCache = new Map();
-
 function start() {
   fontCache = scanFonts(); // warm up synchronously before window opens
 
@@ -99,13 +96,8 @@ function start() {
       if (!fontCache[file]) { res.writeHead(403); return res.end(); }
 
       try {
-        let content = fontFileContentCache.get(file);
-        if (!content) {
-          content = fs.readFileSync(file);
-          fontFileContentCache.set(file, content);
-        }
         res.setHeader('Content-Type', 'application/octet-stream');
-        return res.end(content);
+        return res.end(fs.readFileSync(file));
       } catch {
         res.writeHead(404); return res.end();
       }

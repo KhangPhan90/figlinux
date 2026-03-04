@@ -1,4 +1,4 @@
-const { ipcMain, BrowserWindow } = require('electron');
+const { ipcMain, BrowserWindow, Menu } = require('electron');
 const path = require('path');
 const { DEFS, FIGMA_DEFS, resolveAll } = require('./shortcuts');
 
@@ -7,6 +7,7 @@ let _getWin;
 let _rebuildMenu;
 let _config;
 let _shortcutsWin = null;
+let _isRecording = false;
 
 function init({ getTabManager, getWin, rebuildMenu, config }) {
   _getTabManager = getTabManager;
@@ -39,7 +40,14 @@ function open() {
 
   _shortcutsWin.loadFile(path.join(__dirname, 'ui/shortcuts.html'));
   _shortcutsWin.setMenuBarVisibility(false);
-  _shortcutsWin.on('closed', () => { _shortcutsWin = null; });
+  _shortcutsWin.on('closed', () => {
+    _shortcutsWin = null;
+    // Restore menu accelerators if window closed while recording
+    if (_isRecording) {
+      _isRecording = false;
+      _rebuildMenu();
+    }
+  });
 }
 
 // ── IPC handlers ──────────────────────────────────────────────────────────────
@@ -112,6 +120,19 @@ function registerIPC() {
     _config.save(cfg);
     _rebuildMenu();
     return { ok: true };
+  });
+
+  // Disable/restore menu accelerators during shortcut recording
+  ipcMain.on('shortcuts:recording', (_event, active) => {
+    _isRecording = active;
+    const win = _getWin();
+    if (!win) return;
+    if (active) {
+      // Set empty menu to disable all accelerators while recording
+      win.setMenu(Menu.buildFromTemplate([]));
+    } else {
+      _rebuildMenu();
+    }
   });
 }
 

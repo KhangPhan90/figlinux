@@ -1,6 +1,12 @@
 let currentTabs = [];
 let draggingIndex = -1;
 
+function showDefaultIcon(iconEl) {
+  iconEl.innerHTML = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+    <path d="M7 0.5L13.5 4.25V11.75L7 13.5L0.5 11.75V4.25L7 0.5Z" fill="#1abcfe" opacity="0.7"/>
+  </svg>`;
+}
+
 function renderTabs(tabs) {
   currentTabs = tabs;
   const container = document.getElementById('tabs');
@@ -19,6 +25,10 @@ function renderTabs(tabs) {
   for (const tab of tabs) {
     const el = document.createElement('div');
     el.className = 'tab' + (tab.active ? ' active' : '');
+    el.setAttribute('role', 'tab');
+    el.setAttribute('aria-selected', tab.active ? 'true' : 'false');
+    el.setAttribute('aria-label', tab.title);
+    el.tabIndex = 0;
 
     // ── Favicon / spinner ───────────────────────────────────────────────────
     const iconEl = document.createElement('span');
@@ -34,8 +44,10 @@ function renderTabs(tabs) {
       img.width = 14;
       img.height = 14;
       img.alt = '';
-      img.addEventListener('error', () => { iconEl.innerHTML = ''; });
+      img.addEventListener('error', () => { showDefaultIcon(iconEl); });
       iconEl.appendChild(img);
+    } else {
+      showDefaultIcon(iconEl);
     }
 
     el.appendChild(iconEl);
@@ -72,6 +84,15 @@ function renderTabs(tabs) {
     el.addEventListener('contextmenu', (e) => {
       e.preventDefault();
       showCtxMenu(e.clientX, e.clientY, tab.index);
+    });
+
+    // Keyboard context menu (Shift+F10 or ContextMenu key)
+    el.addEventListener('keydown', (e) => {
+      if ((e.key === 'F10' && e.shiftKey) || e.key === 'ContextMenu') {
+        e.preventDefault();
+        const rect = el.getBoundingClientRect();
+        showCtxMenu(rect.left + rect.width / 2, rect.bottom, tab.index);
+      }
     });
 
     // ── Drag to reorder (home tab is not draggable) ──────────────────────────

@@ -19,7 +19,7 @@
     "executableName": "figma-on-linux",
     "files": ["src/**/*"],
     "linux": {
-      "target": ["AppImage", "deb"],
+      "target": ["AppImage", "deb", "rpm"],
       "category": "Graphics",
       "icon": "assets/icon.png"
     }
