@@ -36,8 +36,10 @@ if [ ! -f assets/icon.svg ]; then
 fi
 
 # Install dependencies (electron is a devDependency, so we need the full install)
+# --loglevel=error suppresses deprecation warnings from electron-builder's transitive
+# deps (glob@7, rimraf@2, boolean, inflight) which are pinned by upstream and harmless.
 echo "Installing dependencies..."
-npm install
+npm install --loglevel=error
 echo ""
 
 # Copy app to install directory
