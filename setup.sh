@@ -84,6 +84,7 @@ DESKTOP
 # Update desktop and icon caches
 update-desktop-database "$HOME/.local/share/applications" 2>/dev/null || true
 gtk-update-icon-cache -f -t "$HOME/.local/share/icons/hicolor" 2>/dev/null || true
+xdg-icon-resource forceupdate --theme hicolor 2>/dev/null || true
 
 echo ""
 echo "=== Installed! ==="
