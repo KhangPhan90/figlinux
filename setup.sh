@@ -30,8 +30,8 @@ echo "Node: $(node --version)  npm: $(npm --version)"
 echo ""
 
 # Check icon exists
-if [ ! -f assets/icon.png ]; then
-  echo "ERROR: assets/icon.png not found. Are you running this from the project root?"
+if [ ! -f assets/icon.svg ]; then
+  echo "ERROR: assets/icon.svg not found. Are you running this from the project root?"
   exit 1
 fi
 
@@ -46,15 +46,22 @@ rm -rf "$INSTALL_DIR"
 mkdir -p "$INSTALL_DIR"
 cp -r src package.json package-lock.json node_modules assets "$INSTALL_DIR/"
 
-# Install icon at multiple sizes for best display
+# Install scalable SVG icon (preferred — scales perfectly at any size)
+scalable_dir="$HOME/.local/share/icons/hicolor/scalable/apps"
+mkdir -p "$scalable_dir"
+cp assets/icon.svg "$scalable_dir/figlinux.svg"
+
+# Also install sized PNGs for legacy icon themes that don't support scalable
 for size in 48 64 128 256 512; do
   dir="$HOME/.local/share/icons/hicolor/${size}x${size}/apps"
   mkdir -p "$dir"
-  if command -v magick &> /dev/null; then
-    magick assets/icon.png -resize "${size}x${size}" "$dir/figlinux.png"
+  if command -v rsvg-convert &> /dev/null; then
+    rsvg-convert -w "$size" -h "$size" assets/icon.svg -o "$dir/figlinux.png"
+  elif command -v magick &> /dev/null; then
+    magick assets/icon.svg -resize "${size}x${size}" "$dir/figlinux.png"
   elif command -v convert &> /dev/null; then
-    convert assets/icon.png -resize "${size}x${size}" "$dir/figlinux.png"
-  else
+    convert assets/icon.svg -resize "${size}x${size}" "$dir/figlinux.png"
+  elif [ -f assets/icon.png ]; then
     cp assets/icon.png "$dir/figlinux.png"
   fi
 done
@@ -86,4 +93,5 @@ echo "  $INSTALL_DIR/node_modules/.bin/electron --class=io.github.KhangPhan90.Fi
 echo ""
 echo "To uninstall:"
 echo "  rm -rf $INSTALL_DIR $DESKTOP_FILE"
-echo "  rm -f ~/.local/share/icons/hicolor/*/apps/figlinux.png"
+echo "  rm -f ~/.local/share/icons/hicolor/scalable/apps/figlinux.svg
+  rm -f ~/.local/share/icons/hicolor/*/apps/figlinux.png"

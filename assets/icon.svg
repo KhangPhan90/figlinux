@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Dark rounded background -->
+  <rect width="256" height="256" rx="48" fill="#1E1E1E"/>
+
+  <!--
+    Figma logomark — 5 shapes in a 2-column × 3-row grid.
+    Cell size: 56×56.  Total logo: 112×168.
+    Centered in 256×256: x offset = 72, y offset = 44.
+
+    Row 1 (top):    red pill  spans full width (both columns)
+    Row 2 (middle): purple rect (left) + blue circle (right)
+    Row 3 (bottom): green rect (left only)
+
+    Together they form the letter "F" — the vertical bar is the
+    three left-column shapes; the top and middle arms are the
+    right-column shapes.
+  -->
+
+  <!-- Row 1: Red pill (top arm of F) -->
+  <rect x="72" y="44" width="112" height="56" rx="28" fill="#F24E1E"/>
+
+  <!-- Row 2 left: Purple rounded rect -->
+  <rect x="72" y="100" width="56" height="56" rx="28" fill="#A259FF"/>
+
+  <!-- Row 2 right: Blue circle (middle arm of F) -->
+  <circle cx="156" cy="128" r="28" fill="#1ABCFE"/>
+
+  <!-- Row 3 left: Green rounded rect (foot of vertical bar) -->
+  <rect x="72" y="156" width="56" height="56" rx="28" fill="#0ACF83"/>
+</svg>

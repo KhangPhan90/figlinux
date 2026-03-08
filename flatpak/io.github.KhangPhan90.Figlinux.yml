@@ -61,9 +61,9 @@ modules:
       # 5. Install the launcher script.
       - install -Dm755 flatpak/run.sh /app/bin/run.sh
 
-      # 6. Install the app icon (create assets/icon.png before building).
-      - install -Dm644 assets/icon.png
-          /app/share/icons/hicolor/256x256/apps/io.github.KhangPhan90.Figlinux.png
+      # 6. Install the app icon (SVG scales perfectly at any size).
+      - install -Dm644 assets/icon.svg
+          /app/share/icons/hicolor/scalable/apps/io.github.KhangPhan90.Figlinux.svg
 
       # 7. Install the .desktop entry.
       - install -Dm644
